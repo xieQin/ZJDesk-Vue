@@ -1,5 +1,6 @@
 <template>
     <!-- 全局header -->
+    <p>111111</p>
     <div>
         <img class="index" src="../assets/images/index.png">
     </div>
