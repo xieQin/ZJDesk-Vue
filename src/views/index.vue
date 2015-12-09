@@ -1,28 +1,36 @@
 <template>
-    <!-- 全局header -->
-    <p>111111</p>
-    <div>
-        <img class="index" src="../assets/images/index.png">
+    <!-- 全局header 开始-->
+    <nv-zjheader>
+    </nv-zjheader>
+    <!-- 全局header 结束 -->
+
+    <div class="zjd-container bgf4f4f4">
+        <!-- 掌金课堂header 开始-->
+        <nv-zjdheader>
+        </nv-zjdheader>
+        <!-- 掌金课堂header 结束 -->
+
+        
     </div>
+
+    <!-- 全局footer 开始-->
+    <nv-zjfooter>
+    </nv-zjfooter>
+    <!-- 全局footer 结束-->
 </template>
 <script>
-    require('../assets/scss/iconfont/iconfont.css');
-    require('../assets/scss/CV.scss');
-    require('../assets/scss/github-markdown.css');
+    // require('../assets/scss/base.scss');
     module.exports = {
-        ready:function(){
-            var _self = this;
-            setTimeout(function(){
-                _self.$route.router.go({ name: 'list'});
-            },2000);
+        data: function() {
+            return {
+                msg : "hello world Vue!111"
+            }
+        },
+        components: {
+            'nvZjheader': require('../components/zjheader.vue'),
+            'nvZjdheader': require('../components/zjdheader.vue'),
+            'nvZjfooter': require('../components/zjfooter.vue')
         }
     }
 </script>
-<style>
-    .index{
-        width: 100%;
-        background-color: #fff;
-        margin-top: 40%;
-    }
-</style>
 

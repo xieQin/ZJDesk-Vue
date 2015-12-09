@@ -1,188 +1,68 @@
 <template>
-    <nv-head page-type="登录">
-    </nv-head>
-    <section class="page-body">
-        <div class="label">
-            <input class="txt" type="text" placeholder="Access Token" v-model="token" maxlength="36">
+    <!-- 全局header 开始-->
+    <nv-zjheader>
+    </nv-zjheader>
+    <!-- 全局header 结束 -->
+
+    <div class="zjd-container bgf4f4f4">
+        <!-- 掌金课堂header 开始-->
+        <nv-zjdheader>
+        </nv-zjdheader>
+        <!-- 掌金课堂header 结束 -->
+
+        <!-- 掌金课堂breadcrumb 开始-->
+        <nv-zjdbreadcrumb
+            breadcrumb = "登录"
+            breadcrumburl = "login"
+        >
+        </nv-zjdbreadcrumb>
+        <!-- 掌金课堂breadcrumb 结束-->
+
+        <div class="zjd-top login">
+            <div class="zjd-container clearfix">
+                <img src="../assets/images/zjd-login-bg.png" alt="zjd-loin-bg" class="login-bg fl">
+                <div class="zjd-login fl">
+                    <div class="item tr"><a v-link="{name:'register'}">无账号？立即注册</a></div>
+                    <div class="input">
+                        <p class="item tl">用户名</p>
+                        <i class="icon-login-account icon-icon-login-account"></i>
+                        <input type="text" class="text-input" name="account" placeholder="手机号码">
+                    </div>
+                    <div class="input">
+                        <p class="item tl">密码</p>
+                        <i class="icon-login-pwd icon-icon-login-pwd"></i>
+                        <input type="text" class="text-input" name="pwd" placeholder="密码">
+                    </div>
+                    <div class="item pt8">
+                        <input type="checkbox" class="checkbox-input">  记住此用户
+                        <a class="fr" v-link="{name:'forget'}">忘记密码</a>
+                    </div>
+                    <div class="input">
+                        <button class="submit-input tc">登 录</button>
+                    </div>
+                    <div class="item b64a1e tc">可使用掌金APP账户登录</div>
+                </div>
+            </div>
         </div>
-        <div class="label">
-            <a class="button">选择二维码图片</a>
-            <input class="file" type="file" id="file_upload" @change="readPic"
-                accept="image/*" capture="camera"/>
-            <a class="button" @click="logon">登录</a>
-        </div>
-    </section>
-    <nv-alert :content="alert.txt" :show="alert.show"></nv-alert>
-    <nv-loading :show="loading.show" :show-txt="loading.showTxt"></nv-loading>
+
+    </div>
+
+    <!-- 全局footer 开始-->
+    <nv-zjfooter>
+    </nv-zjfooter>
+    <!-- 全局footer 结束-->
 </template>
-
 <script>
-    var qrcode = require('../libs/llqrcode').qrcode;
-
-    var browser = {
-        versions: function() {
-            var u = navigator.userAgent,
-                app = navigator.appVersion;
-            return { //移动终端浏览器版本信息
-                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
-                iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-                iPad: u.indexOf('iPad') > -1, //是否iPad
-            };
-        }(),
-    }
+    require('../assets/scss/components/zjdlogin.scss');
     module.exports = {
-        data: function () {
-            var self = this;
-            return {
-                token: '',
-                /*弱提示*/
-                alert: {
-                    txt: '',
-                    show: false,
-                    hideFn:function(){
-                        var timer;
-                        clearTimeout(timer);
-                        timer = setTimeout(function () {
-                            self.alert.show = false;
-                        }, 1000);
-                    }
-                },
-                loading:{
-                    show:false,
-                    showTxt:'二维码识别中'
-                }
-            }
+        data: function() {
         },
-        methods: {
-            logon: function(){
-                var self = this;
-                if(self.token == ''){
-                    var text = "令牌格式错误,应为36位UUID字符串";
-                    self.alert.txt = text;
-                    self.alert.show = true;
-                    self.alert.hideFn();
-                    return false;
-                }
-                $.ajax({
-                    type:'POST',
-                    url:'https://cnodejs.org/api/v1/accesstoken',
-                    data:{accesstoken:self.token},
-                    dataType: 'json',
-                    success:function(res){
-                        localStorage.loginname = res.loginname;
-                        localStorage.avatar_url = res.avatar_url;
-                        localStorage.userId = res.id;
-                        localStorage.token = self.token;
-                        //e44d5f6d-6648-4eb8-96e3-e1bfb34f3635
-                        var redirect = decodeURIComponent(self.$route.query.redirect || '/');
-                        self.$route.router.go(redirect);
-                    },
-                    error:function(res){
-                        var error = JSON.parse(res.responseText);
-                        self.alert.txt = error.error_msg;
-                        self.alert.show = true;
-                        self.alert.hideFn();
-                        return false;
-                    }
-                })
-            },
-            readPic:function(e){
-                var self = this;
-                var file = e.currentTarget.files[0];//  this is my image
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    var dataURL = reader.result;
-
-                    var base64 = dataURL.split('base64,');
-                    var param = { "img": base64[1] };
-
-                    self.loading.show = true;
-                    if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
-                        $.post('http://m.yueqingwang.com/common.ashx', param, function (d) {
-                            self.loading.show = false;
-                            if(d == "qrcode error"){
-                                self.token = "";
-                                var text = "二维码图片不清晰";
-                                self.alert.txt = text;
-                                self.alert.show = true;
-                                self.alert.hideFn();
-                                return false;
-                            }
-                            else{
-                                self.token = d;
-                            }
-                        });
-                    }
-                    else{
-                        qrcode.decode(dataURL);
-                        qrcode.callback = function (data) {
-                            self.loading.show = false;
-                            self.token = data;
-                        }
-                    }
-                }
-                reader.readAsDataURL(file);
-            },
-        },
-        components:{
-            "nvHead":require('../components/header.vue'),
-            "nvAlert":require('../components/nvAlert.vue'),
-            "nvLoading":require('../components/loading.vue')
+        components: {
+            'nvZjheader': require('../components/zjheader.vue'),
+            'nvZjdheader': require('../components/zjdheader.vue'),
+            'nvZjdbreadcrumb': require('../components/zjdbreadcrumb.vue'),
+            'nvZjfooter': require('../components/zjfooter.vue')
         }
     }
 </script>
-<style>
 
-.page-body {
-    padding: 50px 15px;
-
-    .label{
-        display: inline-block;
-        width: 100%;
-        margin-top: 15px;
-        position: relative;
-        left: 0;
-        top: 0;
-
-        .txt{
-            padding: 12px 0;
-            border:none;
-            border-bottom: 1px solid #4fc08d;
-            background-color: transparent;
-            width: 100%;
-            font-size: 14px;
-            color: #313131;
-        }
-        .button {
-            display: inline-block;
-            width: 48%;
-            height: 42px;
-            line-height: 42px;
-            border-radius: 3px;
-            color: #fff;
-            font-size: 16px;
-            background-color: #4fc08d;
-            border: none;
-            border-bottom: 2px solid #3aa373;
-            text-align: center;
-            vertical-align: middle;
-        }
-        .button:first-child{
-            margin-right: 2%;
-        }
-        .file{
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 42px;
-            width: 48%;
-            outline: medium none;
-            filter:alpha(opacity=0);
-            -moz-opacity:0;
-            opacity:0;
-        }
-    }
-}
-</style>

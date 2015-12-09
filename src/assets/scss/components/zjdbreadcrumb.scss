@@ -1,0 +1,59 @@
+.zjd-breadcrumb {
+	height: auto;
+	padding: 20px 0;
+
+	> li {
+		float: left;
+		position: relative;
+		margin-left: 20px;
+		height: 20px;
+		line-height: 20px;
+	}
+
+	> li > a {
+		color: #666;
+	}
+
+	> li.active > a {
+		color: #3587c6;
+	}
+
+	> li.index:before {
+		position: absolute;
+		top: 5px;
+		left: -20px;
+		content:  "";
+		background-image: url(../../images/sprites.png);
+		background-position: -376px -124px;
+		width: 13px;
+		height: 11px;
+	}
+
+	> li.item:before {
+		position: absolute;
+		top: 5px;
+		left: -12px;
+		content:  "";
+		background-image: url(../../images/sprites.png);
+	    background-position: -408px -50px;
+	    width: 6px;
+	    height: 11px;
+	}
+
+	> li.search {
+		margin-left: 40px;
+		color: #666;
+	}
+
+	.icon-close {
+		position: absolute;
+		top: 5px;
+		right: -20px;
+		content:  "";
+		background-image: url(../../images/sprites.png);
+	    background-position: -358px -114px;
+	    width: 11px;
+	    height: 10px;
+		cursor: pointer;
+	}
+}

@@ -8,10 +8,11 @@ var vue = require("vue-loader");
 
 module.exports = {
 	//项目入口
-	entry: ['./src/main'],
+	entry: './src/main',
 	//输出文件
 	output: {
 		path: __dirname + '/dist',
+		publicPath: 'dist/',
 		filename: 'build.js'
 	},
 	vue: {
@@ -38,7 +39,7 @@ module.exports = {
 	        },
 	        {
 	            test: /\.(jpg|png|gif)$/,
-	            loader: "file-loader?name=images/[hash].[ext]"
+	            loader: "url-loader?name=images/[hash].[ext]"
 	        },
 	        {
 	            test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -62,10 +63,11 @@ module.exports = {
         extension: ['', '.js']
     },
     plugins: [
+    	// new webpack.optimize.UglifyJsPlugin({minimize: true}),
     	new webpack.optimize.CommonsChunkPlugin('common.js'),
     	new ExtractTextPlugin("style.css", {
 	        allChunks: true,
 	        disable: false
-	    }),
+	    })
     ]
 }

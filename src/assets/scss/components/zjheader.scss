@@ -1,0 +1,54 @@
+$color: #3587c6;
+$container-width: 1200px;
+$toolbarcolor: #e6ebec;
+.zj-header {
+	width: 100%;
+	height: auto;
+
+	.zj-toolbar {
+		height: auto;
+		border-bottom: 1px solid $toolbarcolor;
+		height: 40px;
+		line-height: 40px;
+		color: $color;
+		font-size: .75em;
+		text-align: center;
+
+		.w150 {
+			float: left;
+			width: 150px;
+		}
+		.w100 {
+			float: right;
+			width: 100px;
+		}
+		.w90 {
+			float: right;
+			width: 90px;
+		}
+	}
+
+	.zj-hbar {
+		height: auto;
+	}
+
+	.zj-hsection {
+		float: left;
+		width: 50%;
+		height: auto;
+
+		a {
+			display: block;
+			color: #3587c6;
+		}
+
+		img {
+			display: block;
+		}
+
+		.ZJDesk-logo {
+			width: 243px;
+			height: 112px;
+		}
+	}
+}

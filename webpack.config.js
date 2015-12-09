@@ -8,10 +8,11 @@ var vue = require("vue-loader");
 
 module.exports = {
 	//项目入口
-	entry: ['./src/main'],
+	entry: './src/main.js',
 	//输出文件
 	output: {
-		path: __dirname + '/dist',
+		path: './dist',
+		publicPath: 'dist/',
 		filename: 'build.js'
 	},
 	//服务器配置
@@ -21,7 +22,7 @@ module.exports = {
 		inline: true,
 		progress: true,
 	},
-	devtool: 'eval-source-map',
+	devtool: '#source-map',
 	vue: {
         loader: {
             css: ExtractTextPlugin.extract(
@@ -40,13 +41,18 @@ module.exports = {
 	                "style-loader", 'css-loader?sourceMap!sass-loader!cssnext-loader')
 	        },
 	        {
+	            test: /\.less$/,
+	            loader: ExtractTextPlugin.extract(
+	                "style-loader", 'css-loader?sourceMap!less-loader!cssnext-loader')
+	        },
+	        {
 	            test: /\.css$/,
 	            loader: ExtractTextPlugin.extract(
 	                "style-loader", "css-loader?sourceMap!cssnext-loader")
 	        },
 	        {
 	            test: /\.(jpg|png|gif)$/,
-	            loader: "file-loader?name=images/[hash].[ext]"
+	            loader: "url-loader?name=images/[hash].[ext]"
 	        },
 	        {
 	            test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -75,5 +81,6 @@ module.exports = {
 	        allChunks: true,
 	        disable: false
 	    }),
+	    new webpack.HotModuleReplacementPlugin()
     ]
 }

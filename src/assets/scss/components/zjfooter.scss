@@ -1,0 +1,22 @@
+$color: #3587c6;
+.zj-footer {
+	background-color: $color;
+
+	.zj-footer-section {
+		background-color: $color;
+		height: 258px;
+	}
+
+	.zj-footer-bottom {
+		background-color: #3f3f3f;
+
+		.zj-container {
+			height: 40px;
+			line-height: 40px;
+			font-size: .75em;
+			text-align: left;
+			color: #fff;
+			background-color: #3f3f3f;
+		}
+	}
+}
