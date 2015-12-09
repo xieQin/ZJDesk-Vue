@@ -16,7 +16,7 @@ module.exports=function(router){
         },
         '/forget': {
             name:'forget',
-            component:require('./views/test.vue')
+            component:require('./views/forget.vue')
         },
         '/test': {
             name:'test',

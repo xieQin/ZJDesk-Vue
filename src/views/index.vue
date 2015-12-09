@@ -10,7 +10,6 @@
         </nv-zjdheader>
         <!-- 掌金课堂header 结束 -->
 
-        
     </div>
 
     <!-- 全局footer 开始-->
